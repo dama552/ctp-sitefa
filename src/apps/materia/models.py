@@ -1,7 +1,7 @@
 from django.db import models
  
 class Materia (models.Model):
-    nombre=models.Charfield(max_lenght=100)  
+    nombre=models.CharField()  
     def __str__ (self):
         return f"{self.nombre}"
 
