@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'apps.horario',
     "apps.materia",
     "apps.calificacion",
+    "apps.profesorado",
 ]
 
 MIDDLEWARE = [
