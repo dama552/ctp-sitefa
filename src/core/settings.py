@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'apps.seguridad',
     'apps.horario',
     "apps.materia",
+    "apps.calificacion",
 ]
 
 MIDDLEWARE = [
