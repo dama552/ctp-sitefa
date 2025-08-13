@@ -21,3 +21,4 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('calificacion/', include('apps.calificacion.urls')),
 ]
+
