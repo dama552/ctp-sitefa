@@ -1,5 +1,8 @@
 from django.db import models
 
+from apps.estudiante.models import Estudiante
+from apps.materia.models import Materia
+
 class Asistencia (models.Model):
     fecha =  models.CharField(max_length=100)
     presente = models.BooleanField(default=False)
