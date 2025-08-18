@@ -1,0 +1,8 @@
+<h1>Lista de Docentes</h1>
+<ul>
+    {% for docente in docentes %}
+    <li>{{ docente.nombre }}</li>
+    {% empty %}
+    <li>No hay docentes disponibles.</li>
+    {% endfor %}
+</ul>
