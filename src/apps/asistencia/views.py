@@ -7,7 +7,7 @@ from .models import Asistencia
 class AsistenciaLeerView(ListView):
     model =  Asistencia
     template_name = 'asistencia/leer.html'
-    context_object_name = 'asistencia'
+    context_object_name = 'asistencias'
 
 class AsistenciaCrearView(CreateView):
     model = Asistencia
