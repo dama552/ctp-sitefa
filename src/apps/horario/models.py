@@ -2,7 +2,7 @@ from django.db import models
 
 class Horario(models.Model):
     materia = models.CharField(max_length=100)
-    dia_semana = models.CharField(max_length=100)
+    dia_semana = models.CharField(max_length=100) #agregar choice
     hora_inicio = models.CharField(max_length=100)
     hora_fin = models.CharField(max_length=100)
     
