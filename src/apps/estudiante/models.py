@@ -16,6 +16,7 @@ class Estudiante(models.Model):
 	}
 	estado = models.CharField(max_length=50, choices=estados)
 	materias_inscriptas = models.CharField(max_length=300)
+	materia = models.ManyToManyField(Materia)
 
 	
 	def __str__ (self):
