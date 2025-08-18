@@ -1,0 +1,8 @@
+<h1>Lista de Horario</h1>
+<ul>
+    {% for horario in horarios %}
+        <li>{{ horario.materia }}</li>
+    {% empty %}
+        <li>No hay horarios disponibles.</li>
+    {% endfor %}
+</ul>
