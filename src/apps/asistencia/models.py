@@ -1,11 +1,11 @@
 from django.db import models
 
 class Asistencia (models.Model):
-    materia = models.CharField(max_length=100)
     fecha =  models.CharField(max_length=100)
-    estudiante = models.CharField(max_length=100)
     presente = models.BooleanField(default=False)
     justificación = models.CharField(max_length=100)
+    estudiante = models.ForeignKey(Estudiante,on_delete=models.CASCADE,related_name="estudiante")
+    materia = models.ForeignKey(Materia,on_delete=models.CASCADE,related_name="asistencia")
     
     def __str__(self):
           return self.fecha
