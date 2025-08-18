@@ -3,10 +3,10 @@ from .models import Horario
 
 @admin.register(Horario)
 class HorarioAdmin(admin.ModelAdmin):
-    list_display = ['nombre']
-    search_fields = ['nombre']
-    list_filter = ['nombre']
-    ordering = ['nombre']
+    list_display = ['materia']
+    search_fields = ['materia']
+    list_filter = ['materia']
+    ordering = ['materia']
 
 
 # Register your models here.
