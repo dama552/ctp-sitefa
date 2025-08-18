@@ -5,7 +5,7 @@ class Materia (models.Model):
     anio=models.CharField()
 
     def __str__ (self):
-        return f"{self.nombre}"
+        return self.nombre
 
 
 # Create your models here.
