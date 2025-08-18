@@ -13,15 +13,15 @@ class AsistenciaCrearView(CreateView):
     model = Asistencia
     fields = '__all__'
     template_name = 'asistencia/crear.html'
-    success_url = reverse_lazy('asistencia:asistencia_leer')
+    success_url = reverse_lazy('asistencias:asistencia_leer')
 
 class AsistenciaActualizarView(UpdateView):
     model = Asistencia
     fields = '__all__'
     template_name = 'asistencia/actualizar.html'
-    success_url = reverse_lazy('asistencia:asistencia_leer')
+    success_url = reverse_lazy('asistencias:asistencia_leer')
     
 class AsistenciaEliminarView(DeleteView):
     model = Asistencia
     template_name = 'asistencia/eliminar.html'
-    success_url = reverse_lazy('asistencia:asistencia_leer')
+    success_url = reverse_lazy('asistencias:asistencia_leer')
