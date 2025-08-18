@@ -1,0 +1,8 @@
+<h1>Lista de Asistencia</h1>
+<ul>
+{% for asistencia in asistencia %}
+<li>{{ asistencia.nombre }}</li>
+{% empty %}
+<li>No hay asistencia disponibles.</li>
+{% endfor %}
+</ul>
