@@ -1,5 +1,7 @@
 from django.db import models
 
+from apps.materia.models import Materia
+
 class Docente(models.Model):
     nombre = models.CharField(max_length=100)
     apellido = models.CharField(max_length=100)
@@ -8,7 +10,7 @@ class Docente(models.Model):
     telefono = models.IntegerField()
     direccion = models.CharField(max_length=100)
     fecha_Nacimiento = models.DateField()
-    materia = models.ManyToManyField(Docente)
+    materia = models.ManyToManyField(Materia)
     
     def __str__(self):
         return {self.nombre}, {self.apellido}
