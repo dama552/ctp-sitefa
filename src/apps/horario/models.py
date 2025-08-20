@@ -1,5 +1,7 @@
 from django.db import models
 
+from apps.materia.models import Materia
+
 class Horario(models.Model):
     materia = models.ForeignKey(Materia, on_delete=models.CASCADE)
     dia_semana = models.CharField(max_length=100) #agregar choice
