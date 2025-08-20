@@ -1,4 +1,5 @@
 from django.db import models
+from apps.profesorado.models import Profesorado
  
 class Materia (models.Model):
     nombre=models.CharField()

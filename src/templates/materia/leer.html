@@ -1,0 +1,8 @@
+<h1>Lista de Materias</h1>
+<ul>
+{% for materia in materias %}
+<li>{{ materia.nombre }}</li>
+{% empty %}
+<li>No hay materias disponibles.</li>
+{% endfor %}
+</ul>
