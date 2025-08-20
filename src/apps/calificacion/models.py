@@ -1,4 +1,9 @@
 from django.db import models
+from apps.Materia.models import Materia
+from apps.Estudiante.models import Estudiante
+
+from apps.estudiante.models import Estudiante
+from apps.materia.models import Materia
 
 from apps.estudiante.models import Estudiante
 from apps.materia.models import Materia
