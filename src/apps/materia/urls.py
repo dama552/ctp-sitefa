@@ -1,5 +1,5 @@
 from django.urls import path
-from views import MateriaCrearVista,MateriaActualizarVista,MateriaEliminarVista,MateriaLeerVista
+from .views import MateriaCrearVista,MateriaActualizarVista,MateriaEliminarVista,MateriaLeerVista
 
 app_name = 'materia'
 

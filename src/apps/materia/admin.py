@@ -3,6 +3,7 @@ from .models import Materia
 # Register your models here.
 @admin.register(Materia)
 class MateriaAdmin(admin.ModelAdmin):
-    search_fields = ("nombre")
-    list_filter = ("nombre")
-    ordering = ("nombre")
+    list_display = ["nombre", "profesorado"]
+    search_fields = ["nombre", "profesorado"]
+    list_filter = ["nombre","profesorado"]
+    ordering = ["nombre"]

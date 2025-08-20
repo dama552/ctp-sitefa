@@ -1,5 +1,4 @@
 from django.shortcuts import render
-
 from apps.docente.models import Docente
 from .models import Docente
 from django.views import generic
@@ -19,7 +18,7 @@ class DocenteActualizarVista(generic.UpdateView):
     success_urls = reverse_lazy ('docente:list-docente')
     
     
-class DocenteEliminarVista(generic.DeteleView):
+class DocenteEliminarVista(generic.DeleteView):
     model = Docente
     fields = '__all__'
     template_name = 'docente/eliminar.html'

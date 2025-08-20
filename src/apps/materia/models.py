@@ -3,7 +3,6 @@ from apps.profesorado.models import Profesorado
  
 class Materia (models.Model):
     nombre=models.CharField()
-    nombre=models.CharField()  
     anio=models.CharField()
     profesorado=models.ForeignKey(Profesorado,on_delete=models.CASCADE,related_name="materia")
 
