@@ -5,6 +5,9 @@ from apps.Estudiante.models import Estudiante
 from apps.estudiante.models import Estudiante
 from apps.materia.models import Materia
 
+from apps.estudiante.models import Estudiante
+from apps.materia.models import Materia
+
 #Crea tus modelos aquí.
 class Calificacion(models.Model):
     numero= models.DecimalField(max_digits=5, decimal_places=2)

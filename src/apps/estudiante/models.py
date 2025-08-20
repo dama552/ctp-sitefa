@@ -1,4 +1,5 @@
 from django.db import models
+from apps.materia.models import Materia
 
 class Estudiante(models.Model):
 	nombre=models.CharField(max_length=200)
