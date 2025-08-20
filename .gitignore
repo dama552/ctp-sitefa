@@ -173,4 +173,8 @@ poetry.toml
 # LSP config files
 pyrightconfig.json
 
+# Ignorar todas las migraciones
+*/migrations/*.py
+!*/migrations/__init__.py
+
 # End of https://www.toptal.com/developers/gitignore/api/python
