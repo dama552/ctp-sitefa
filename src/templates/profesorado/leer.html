@@ -1,0 +1,8 @@
+<h1>Lista de Profesorados</h1>
+<ul>
+    {% for profesorado in profesorados %}
+    <li>{{ profesorado.nombre_instituto }} {{ profesorado.carreras }}</li>
+    {% empty %}
+    <li>No hay profesorados disponibles.</li>
+    {% endfor %}
+</ul>
