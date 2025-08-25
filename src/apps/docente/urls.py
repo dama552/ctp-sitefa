@@ -1,10 +1,10 @@
 from django.urls import path
-from apps.docente.views import DocenteActualizarVista, DocenteCrearVista, DocenteEliminarVista, DocenteListaVista
+from apps.docente.views import DocenteActualizarVista, DocenteCrearVista, DocenteEliminarVista, DocenteLeerVista
 
 app_name = 'docente'
 urlpatterns = [
-    path ('docente/crear/', DocenteCrearVista.as_view(), name = 'crear-docente'),
-    path ('docente/lista/', DocenteListaVista.as_view(), name = 'list-docente'),
-    path ('docente/<int:pk>/editar/', DocenteActualizarVista.as_view(), name = 'actualizar-docente'),
-    path ('docente/<int:pk>/eliminar/', DocenteEliminarVista.as_view(), name = 'eliminar-docente'),
+    path ('crear/', DocenteCrearVista.as_view(), name = 'crear-docente'),
+    path ('leer/', DocenteLeerVista.as_view(), name = 'list-docente'),
+    path ('actualizar/<int:pk>/', DocenteActualizarVista.as_view(), name = 'actualizar-docente'),
+    path ('eliminar/<int:pk>/', DocenteEliminarVista.as_view(), name = 'eliminar-docente'),
 ]
