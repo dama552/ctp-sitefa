@@ -23,6 +23,7 @@ class AsistenciaActualizarView(UpdateView):
     
 class AsistenciaEliminarView(DeleteView):
     model = Asistencia
+    fields = '__all__'
     template_name = 'asistencia/eliminar.html'
     success_url = reverse_lazy('asistencias:asistencia_leer')
 
