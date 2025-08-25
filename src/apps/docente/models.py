@@ -10,6 +10,7 @@ class Docente(models.Model):
     telefono = models.IntegerField()
     direccion = models.CharField(max_length=100)
     fecha_Nacimiento = models.DateField()
+    titulo = models.CharField(max_length=100)
     materia = models.ManyToManyField(Materia)
     
     def __str__(self):
