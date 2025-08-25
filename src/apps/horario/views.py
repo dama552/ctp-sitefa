@@ -23,6 +23,7 @@ class HorarioActualizarVista(UpdateView):
 
 class HorarioEliminarVista(DeleteView):
     model = Horario
+    fields = '__all__'
     template_name = 'horario/eliminar.html'
     success_url = reverse_lazy('horario:horario_leer')
 
