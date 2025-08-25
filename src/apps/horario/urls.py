@@ -4,8 +4,8 @@ from .views import HorarioCrearVista, HorarioLeerVista, HorarioActualizarVista, 
 app_name = 'horario'
 
 urlpatterns = [
-    path('horario/crear/',HorarioCrearVista.as_view( ), name='horario_crear'),
-    path('horario/leer/',HorarioLeerVista.as_view( ), name='horario_leer'),
-    path('horario/<int:pk>/actualizar/',HorarioActualizarVista.as_view( ), name='horario_actualizar'),
-    path('horario/<int:pk>/eliminar/',HorarioEliminarVista.as_view( ), name='horario_eliminar')
+    path('crear/',HorarioCrearVista.as_view( ), name='horario_crear'),
+    path('leer/',HorarioLeerVista.as_view( ), name='horario_leer'),
+    path('actualizar/<int:pk>/',HorarioActualizarVista.as_view( ), name='horario_actualizar'),
+    path('eliminar/<int:pk>/',HorarioEliminarVista.as_view( ), name='horario_eliminar')
 ]
