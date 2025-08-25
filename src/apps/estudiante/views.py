@@ -17,6 +17,7 @@ class EstudianteActualizarVista(generic.UpdateView):
 
 class EstudianteEliminarVista(generic.DeleteView):
     model = Estudiante  
+    fields = '__all__'
     template_name = 'estudiante/eliminar.html' 
     success_url = reverse_lazy('estudiante:Estudiante_Leer')
 
