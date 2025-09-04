@@ -1,8 +1,98 @@
-<h1>Lista de Materias</h1>
-<ul>
-{% for materia in materias %}
-<li>{{ materia.nombre }}</li>
-{% empty %}
-<li>No hay materias disponibles.</li>
-{% endfor %}
-</ul>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Lista de Materias</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        .btn {
+            border: none;
+            padding: 8px 12px;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+
+        .btn-crear {
+            background: #28a745;
+            color: white;
+            margin-bottom: 15px;
+        }
+
+        .btn-actualizar {
+            background: #ffc107;
+        }
+
+        .btn-eliminar {
+            background: #dc3545;
+            color: white;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: center;
+        }
+
+        th {
+            background: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <h1>Lista de Materias</h1>
+
+    <!-- Botón para crear nueva materia -->
+    <a href="{% url 'materia:materia_crear' %}">
+        <button class="btn btn-crear">+ Nueva Materia</button>
+    </a>
+
+    <!-- Tabla de materias -->
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Año</th>
+                <th>Profesorado</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for materia in materias %}
+            <tr>
+                <td>{{ materia.id }}</td>
+                <td>{{ materia.nombre }}</td>
+                <td>{{ materia.anio }}</td>
+                <td>{{ materia.profesorado }}</td>
+                <td>
+                    <a href="{% url 'materia:materia_actualizar' materia.id %}">
+                        <button class="btn btn-actualizar">Actualizar</button>
+                    </a>
+                    <a href="{% url 'materia:materia_eliminar' materia.id %}">
+                        <button class="btn btn-eliminar">Eliminar</button>
+                    </a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="5">No hay materias registradas.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>
