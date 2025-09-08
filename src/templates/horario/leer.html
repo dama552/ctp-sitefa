@@ -1,8 +1,100 @@
-<h1>Lista de Horario</h1>
-<ul>
-    {% for horario in horarios %}
-        <li>{{ horario.materia }}</li>
-    {% empty %}
-        <li>No hay horarios disponibles.</li>
-    {% endfor %}
-</ul>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Lista de Horarios</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        .btn {
+            border: none;
+            padding: 8px 12px;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+
+        .btn-crear {
+            background: #28a745;
+            color: white;
+            margin-bottom: 15px;
+        }
+
+        .btn-actualizar {
+            background: #ffc107;
+        }
+
+        .btn-eliminar {
+            background: #dc3545;
+            color: white;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: center;
+        }
+
+        th {
+            background: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <h1>Lista de Horarios</h1>
+
+    <!-- Botón para crear nuevo horario -->
+    <a href="{% url 'horario:horario_crear' %}">
+        <button class="btn btn-crear">+ Nuevo Horario</button>
+    </a>
+
+    <!-- Tabla de horarios -->
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Materia</th>
+                <th>Día</th>
+                <th>Hora Inicio</th>
+                <th>Hora Fin</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for horario in horarios %}
+            <tr>
+                <td>{{ horario.id }}</td>
+                <td>{{ horario.materia }}</td>
+                <td>{{ horario.get_dia_semana_display }}</td>
+                <td>{{ horario.hora_inicio|time:"H:i" }}</td>
+                <td>{{ horario.hora_fin|time:"H:i" }}</td>
+                <td>
+                    <a href="{% url 'horario:horario_actualizar' horario.id %}">
+                        <button class="btn btn-actualizar">Actualizar</button>
+                    </a>
+                    <a href="{% url 'horario:horario_eliminar' horario.id %}">
+                        <button class="btn btn-eliminar">Eliminar</button>
+                    </a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="6">No hay horarios registrados.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>
