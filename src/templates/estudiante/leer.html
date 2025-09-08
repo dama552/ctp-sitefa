@@ -1,20 +1,110 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
+    <meta charset="UTF-8">
     <title>Lista de Estudiantes</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        .btn {
+            border: none;
+            padding: 8px 12px;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+
+        .btn-crear {
+            background: #28a745;
+            color: white;
+            margin-bottom: 15px;
+        }
+
+        .btn-actualizar {
+            background: #ffc107;
+        }
+
+        .btn-eliminar {
+            background: #dc3545;
+            color: white;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: center;
+        }
+
+        th {
+            background: #f2f2f2;
+        }
+    </style>
 </head>
 <body>
     <h1>Lista de Estudiantes</h1>
 
-    <ul>
-        {% for estudiante in estudiantes %}
-            <li>{{ estudiante.nombre }}</li>
-        {% empty %}
-            <li>No hay Estudiantes cargados.</li>
-        {% endfor %}
-    </ul>
+    <!-- Botón para crear nuevo estudiante -->
+    <a href="{% url 'estudiante:Estudiante_crear' %}">
+        <button class="btn btn-crear">+ Nuevo estudiante</button>
+    </a>
 
-    <a href="{% url 'estudiante:Estudiante_crear' %}">Crear nuevo Estudiante/a>
-    
+    <!-- Tabla de estudiantes -->
+    <table>
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Apellido</th>
+                <th>DNI</th>
+                <th>Email</th>
+                <th>Teléfono</th>
+                <th>Dirección</th>
+                <th>Fecha nacimiento</th>
+                <th>Ciclo ingreso</th>
+                <th>Estado</th>
+                <th>Materia</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for estudiante in estudiantes %}
+            <tr>
+                <td>{{ estudiante.nombre }}</td>
+                <td>{{ estudiante.apellido }}</td>
+                <td>{{ estudiante.dni }}</td>
+                <td>{{ estudiante.email }}</td>
+                <td>{{ estudiante.telefono }}</td>
+                <td>{{ estudiante.direccion }}</td>
+                <td>{{ estudiante.fecha_nacimiento }}</td>
+                <td>{{ estudiante.ciclo_ingreso }}</td>
+                <td>{{ estudiante.estado }}</td>
+                <td>{{ estudiante.materia }}</td>
+                <td>
+                    <a href="{% url 'estudiante:Estudiante_actualizar' estudiante.id %}">
+                        <button class="btn btn-actualizar">Actualizar</button>
+                    </a>
+                    <a href="{% url 'estudiante:Estudiante_eliminar' estudiante.id %}">
+                        <button class="btn btn-eliminar">Eliminar</button>
+                    </a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="11">No hay estudiantes registrados.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 </body>
 </html>
