@@ -1,0 +1,19 @@
+<a href="{% url 'materia:materia_leer' %}">Materias</a>
+<a href="{% url 'asistencia:asistencia_leer' %}">Asistencias</a>
+<a href="{% url 'calificacion:calificacion_leer' %}">Calificaciones</a>
+<a href="{% url 'docente:list-docente' %}">Docentes</a>
+<a href="{% url 'estudiante:Estudiante_leer' %}">Estudiantes</a>
+<a href="{% url 'horario:horario_leer' %}">Horarios</a>
+
+<!doctype html>
+<html lang="es">
+    <head>
+        <meta charset= "utf-8" />
+        <title>{{ titulo|
+default:"Inicio" }} </title>
+    </head>
+    <body>
+        <h1> {{ titulo }}</h1>
+        <p>{{ mensaje }}</p>
+    </body>
+</html>

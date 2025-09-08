@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     "apps.materia",
     "apps.calificacion",
     "apps.profesorado",
+    "apps.inicio",
 ]
 
 MIDDLEWARE = [
