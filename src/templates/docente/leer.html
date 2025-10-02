@@ -1,8 +1,67 @@
-<h1>Lista de Docentes</h1>
-<ul>
-    {% for docente in docentes %}
-    <li>{{ docente.nombre }}</li>
-    {% empty %}
-    <li>No hay docentes disponibles.</li>
-    {% endfor %}
-</ul>
+{% extends 'inicio/inicio.html' %}
+
+{% block section %}
+
+
+        <div class="header">
+            <h1><span class="header-icon">📚</span> Lista de Docentes</h1>
+            <a href="{% url 'docente:docente_crear' %}" class="btn btn-crear">➕ Agregar nuevo docente</a>
+        </div>
+
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Apellido</th>
+                        <th>DNI</th>
+                        <th>Email</th>
+                        <th>Teléfono</th>
+                        <th>Dirección</th>
+                        <th>Fecha de Nacimiento</th>
+                        <th>Materias</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for docente in docentes %}
+                        <tr>
+                            <td>{{ docente.nombre }}</td>
+                            <td>{{ docente.apellido }}</td>
+                            <td>{{ docente.dni }}</td>
+                            <td>{{ docente.email }}</td>
+                            <td>{{ docente.telefono }}</td>
+                            <td>{{ docente.direccion }}</td>
+                            <td>{{ docente.fecha_nacimiento|date:"d/m/Y" }}</td>
+                            <td>
+                                {% if docente.materia.all %}
+                                    {% for materia in docente.materia.all %}
+                                        {{ materia.nombre }}{% if not forloop.last %}, {% endif %}
+                                    {% endfor %}
+                                {% else %}
+                                    Sin materias
+                                {% endif %}
+                            </td>
+                            <td>
+                                <div class="actions">
+                                    <a href="{% url 'docente:docente_actualizar' docente.pk %}" class="btn btn-actualizar">✏️ Editar</a>
+                                    <a href="{% url 'docente:docente_eliminar' docente.pk %}" class="btn btn-eliminar">🗑 Eliminar</a>
+                                </div>
+                            </td>
+                        </tr>
+                    {% empty %}
+                        <tr>
+                            <td colspan="9">
+                                <div class="empty-state">
+                                    <i>😕</i>
+                                    <p>No hay docentes registrados.</p>
+                                </div>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+{% endblock section %}

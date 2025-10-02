@@ -1,6 +1,19 @@
-<h1>Crear Docente</h1>
-<form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Guardar</button>
-</form>
+{% extends 'inicio/inicio.html' %}
+
+{% block section %}
+    <div class="form-container">
+        <h1><span class="header-icon">🧑‍🏫</span> Agregar Nuevo Docente</h1>
+
+        <form method="post">
+            {% csrf_token %}
+            <div class="form-grid">
+                {{ form.as_p }}
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" class="btn btn-crear">💾 Guardar</button>
+                <a href="{% url 'docente:docente_listar' %}" class="btn btn-cancelar">↩ Volver</a>
+            </div>
+        </form>
+    </div>
+{% endblock section %}
