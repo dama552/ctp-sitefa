@@ -1,11 +1,5 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Lista de Estudiantes</title>
-</head>
-<body>
-    <h1>Lista de Estudiantes</h1>
-
+{% block section %}
+<h1>Lista de Estudiantes</h1>
     <ul>
         {% for estudiante in estudiantes %}
             <li>{{ estudiante.nombre }}</li>
@@ -13,8 +7,6 @@
             <li>No hay Estudiantes cargados.</li>
         {% endfor %}
     </ul>
-
-    <a href="{% url 'estudiante:Estudiante_crear' %}">Crear nuevo Estudiante/a>
+{% endblock section %}
     
-</body>
-</html>
+

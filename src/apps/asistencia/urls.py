@@ -4,8 +4,8 @@ from .views import AsistenciaCrearView, AsistenciaEliminarView, AsistenciaActual
 app_name = "asistencia"
 
 urlpatterns = [
-    path('', AsistenciaLeerView.as_view(), name='asistencia_leer'),
-    path('nuevo/', AsistenciaCrearView.as_view(), name='asistencia_leer'),
+    path('leer/', AsistenciaLeerView.as_view(), name='asistencia_leer'),
+    path('crear/', AsistenciaCrearView.as_view(), name='asistencia_crear'),
     path('<int:pk>/editar/', AsistenciaActualizarView.as_view(), name='asistencia_actualizar'),
     path('<int:pk>/eliminar/', AsistenciaEliminarView.as_view(), name='asistencia_eliminar'),
 ]

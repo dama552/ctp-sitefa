@@ -24,9 +24,10 @@ class DocenteEliminarVista(generic.DeleteView):
     template_name = 'docente/eliminar.html'
     success_urls = reverse_lazy ('docente:list-docente')
     
-class DocenteListaVista(generic.ListView):
+class DocenteLeerVista(generic.ListView):
     model = Docente
     fields = '__all__'
-    template_name = 'docente/Lista.html'
+    template_name = 'docente/leer.html'
     success_urls = reverse_lazy ('docente:list-docente')
-    context_object_name='docentes'
+    context_object_name = 'docentes' # Esta es la variable que se utiliza para referenciar los objetos en la plantilla
+

@@ -2,6 +2,7 @@
 <ul>
 {% for materia in materias %}
 <li>{{ materia.nombre }}</li>
+<li>{{ materia.anio }}</li>
 {% empty %}
 <li>No hay materias disponibles.</li>
 {% endfor %}

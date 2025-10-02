@@ -3,8 +3,8 @@ from .views import EstudianteCrearVista, EstudianteActualizarVista, EstudianteEl
 app_name = 'estudiante'
 
 urlpatterns = [ 
-    path('estudiante/crear', EstudianteCrearVista.as_view(), name='Estudiante_crear'),
-    path('estudiante/eliminar', EstudianteEliminarVista.as_view(), name='Estudiante_eliminar'),
-    path('estudiante/leer', EstudianteLeerVista.as_view(), name='Estudiante_leer'),
-    path('estudiante/actualizar', EstudianteActualizarVista.as_view(), name='Estudiante_actualizar'),
+    path('crear/', EstudianteCrearVista.as_view(), name='estudiante_crear'),
+    path('eliminar/', EstudianteEliminarVista.as_view(), name='estudiante_eliminar'),
+    path('leer/', EstudianteLeerVista.as_view(), name='estudiante_leer'),
+    path('actualizar/', EstudianteActualizarVista.as_view(), name='estudiante_actualizar'),
 ]
