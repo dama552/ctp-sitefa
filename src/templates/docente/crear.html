@@ -2,17 +2,26 @@
 
 {% block section %}
     <div class="form-container">
-        <h1><span class="header-icon">🧑‍🏫</span> Agregar Nuevo Docente</h1>
+        <div class="header">
+            <h1><span class="header-icon">➕</span> Agregar Nuevo Docente</h1>
+        </div>
 
-        <form method="post">
+        <!-- 1. El formulario que enviará los datos -->
+        <form method="POST">
+            <!-- 2. Token de seguridad de Django (¡Obligatorio!) -->
             {% csrf_token %}
-            <div class="form-grid">
+
+            <!-- 3. Aquí se renderizan todos los campos del modelo Docente -->
+            <div class="form-fields">
                 {{ form.as_p }}
             </div>
-
+            
+            <!-- 4. Botones de acción -->
             <div class="form-actions">
-                <button type="submit" class="btn btn-crear">💾 Guardar</button>
-                <a href="{% url 'docente:docente_listar' %}" class="btn btn-cancelar">↩ Volver</a>
+                <!-- Este botón envía el formulario para que la vista lo guarde -->
+                <button type="submit" class="btn btn-crear">💾 Guardar Docente</button>
+                <!-- Este botón cancela y vuelve a la lista -->
+                <a href="{% url 'docente:docente_leer' %}" class="btn btn-cancelar">❌ Cancelar</a>
             </div>
         </form>
     </div>
