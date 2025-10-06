@@ -1,6 +1,73 @@
-<h1>Actulizar Asistencia</h1>
-<form method="post">
-{% csrf_token %}
-{{ form.as_p }}
-<button type="submit">Guardar cambios</button>
-</form>
+{% extends 'inicio/inicio.html' %}
+
+{% block section %}
+<div class="container">
+    <div class="header">
+        <h1>
+            <i class="fas fa-edit header-icon"></i>
+            Actualizar Asistencia
+        </h1>
+    </div>
+
+    <form method="post" class="mt-4">
+        {% csrf_token %}
+        
+        <!-- Fila 1: Estudiante y Fecha -->
+        <div class="d-flex gap-3 mb-3" style="flex-wrap: wrap;">
+            <div style="flex: 1; min-width: 250px;">
+                <label for="id_estudiante" class="form-label">Estudiante</label>
+                <!-- Asegúrate de que tu formulario añada la clase "form-control" -->
+                {{ form.estudiante }}
+            </div>
+            <div style="flex: 1; min-width: 250px;">
+                <label for="id_fecha" class="form-label">Fecha</label>
+                {{ form.fecha }}
+            </div>
+        </div>
+
+        <!-- Fila 2: Materia y Estado -->
+        <div class="d-flex gap-3 mb-3" style="flex-wrap: wrap;">
+            <div style="flex: 1; min-width: 250px;">
+                <label for="id_materia" class="form-label">Materia</label>
+                {{ form.materia }}
+            </div>
+            <div style="flex: 1; min-width: 250px;">
+                <label for="id_estado" class="form-label">Estado</label>
+                {{ form.estado }}
+            </div>
+        </div>
+
+        <!-- Fila 3: Observaciones -->
+        <div class="mb-4">
+            <label for="id_observaciones" class="form-label">Observaciones</label>
+            {{ form.observaciones }}
+        </div>
+
+        <!-- Botones de Acción -->
+        <div class="d-flex justify-content-end gap-2">
+            <a href="{% url 'asistencia:asistencia_leer' %}" class="btn btn-secondary">
+                <i class="fas fa-arrow-left"></i> Volver a la lista
+            </a>
+            <button type="submit" class="btn btn-actualizar">
+                <i class="fas fa-save"></i> Guardar cambios
+            </button>
+        </div>
+    </form>
+
+    <!-- Estadísticas (Opcional, si quieres mantenerlas) -->
+    <div class="stats mt-5">
+        <div class="stat-item">
+            <div class="stat-value">85%</div>
+            <div class="stat-label">Asistencia General</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-value">12</div>
+            <div class="stat-label">Clases Asistidas</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-value">2</div>
+            <div class="stat-label">Ausencias</div>
+        </div>
+    </div>
+</div>
+{% endblock section %}

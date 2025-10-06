@@ -1,6 +1,32 @@
-<h1>Crear Asistencia</h1>
-<form method="post">
-{% csrf_token %}
-{{ form.as_p }}
-<button type="submit">Guardar</button>
-</form>
+{% extends 'inicio/inicio.html' %}
+
+{% block section %}
+    <section class="form-section">
+        <header class="page-header">
+            <h1 class="page-title">
+                <span class="header-icon" aria-hidden="true">📝</span>
+                Crear Asistencia
+            </h1>
+            <p class="form-description">Complete el formulario para registrar una nueva asistencia</p>
+        </header>
+        
+        <form method="post" class="asistencia-form" id="asistencia-form">
+            {% csrf_token %}
+            
+            <div class="form-fields">
+                {{ form.as_p }}
+            </div>
+            
+            <div class="form-actions">
+                <a href="{% url 'asistencia:asistencia_leer' %}" class="btn btn-cancel">
+                    <span class="btn-icon" aria-hidden="true">↩️</span>
+                    <span class="btn-text">Cancelar</span>
+                </a>
+                <button type="submit" class="btn btn-primary">
+                    <span class="btn-icon" aria-hidden="true">💾</span>
+                    <span class="btn-text">Guardar Asistencia</span>
+                </button>
+            </div>
+        </form>
+    </section>
+{% endblock section %}
