@@ -27,9 +27,9 @@
             {% for a in horarios %}
             <tr>
                 <td>{{ a.materia }}</td>
-                <td>{{ a.hora_inicio }}</td>
-                <td>{{ a.hora_fin }}</td>
                 <td>{{ a.dia_semana }}</td>
+                <td>{{ a.hora_inicio|time:"H:i" }}</td>
+                <td>{{ a.hora_fin|time:"H:i" }}</td>
                  <td>
                             <div class="actions">
                                 <!-- Botón Actualizar -->
