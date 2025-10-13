@@ -1,6 +1,52 @@
-<h1>Crear Asistencia</h1>
-<form method="post">
-{% csrf_token %}
-{{ form.as_p }}
-<button type="submit">Guardar</button>
-</form>
+<!-- tu_app/templates/tu_app/asistencia_form.html -->
+{% extends 'inicio/inicio.html' %}
+
+{% block section %}
+<div class="container">
+    <div class="header">
+        <h1>
+            <i class="fas fa-user-plus header-icon"></i>
+            Crear Nueva Asistencia
+        </h1>
+    </div>
+    
+    <form method="post" class="mt-4">
+        {% csrf_token %}
+        
+        <div class="d-flex gap-3 mb-3" style="flex-wrap: wrap;">
+            <div style="flex: 1; min-width: 250px;">
+                <label for="{{ form.estudiante.id_for_label }}" class="form-label">Estudiante</label>
+                {{ form.estudiante }}
+            </div>
+            <div style="flex: 1; min-width: 250px;">
+                <label for="{{ form.materia.id_for_label }}" class="form-label">Materia</label>
+                {{ form.materia }}
+            </div>
+        </div>
+
+        <!-- El campo 'presente' es un checkbox, necesita una estructura especial -->
+        <div class="mb-3">
+            <div class="form-check">
+                {{ form.presente }}
+                <label class="form-check-label" for="{{ form.presente.id_for_label }}">
+                    Presente
+                </label>
+            </div>
+        </div>
+
+        <div class="mb-4">
+            <label for="{{ form.justificacion.id_for_label }}" class="form-label">Justificación (si está ausente)</label>
+            {{ form.justificacion }}
+        </div>
+        
+        <div class="d-flex justify-content-end gap-2">
+            <a href="{% url 'asistencia:asistencia_leer' %}" class="btn btn-secondary">
+                <i class="fas fa-times-circle"></i> Cancelar
+            </a>
+            <button type="submit" class="btn btn-crear">
+                <i class="fas fa-save"></i> Guardar Asistencia
+            </button>
+        </div>
+    </form>
+</div>
+{% endblock section %}
