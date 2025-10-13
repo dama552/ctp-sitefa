@@ -25,6 +25,15 @@ class DocenteEliminarVista(generic.DeleteView):
     success_url = reverse_lazy ('docente:docente_leer')
     
 class DocenteLeerVista(generic.ListView):
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        nombre = self.request.GET.get('nombre')
+        apellido = self.request.GET.get('apellido')
+        if nombre:
+            queryset = queryset.filter(nombre__icontains=nombre)
+        if apellido:
+            queryset = queryset.filter(apellido__icontains=apellido)
+        return queryset.order_by('apellido', 'nombre')
     model = Docente
     fields = '__all__'
     template_name = 'docente/leer.html'
