@@ -1,5 +1,7 @@
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
+
+from apps.profesorado.models import Profesorado
 from .models import Materia
 
 
@@ -46,12 +48,35 @@ class MateriaCrearVista(CreateView):
     template_name = 'materia/crear.html'
     success_url = reverse_lazy('materia:materia_leer')
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        
+        # Lista de años disponibles
+        context['anios'] = ['1','2','3','4']
+        
+        # Lista de profesorados activos
+        context['profesorados'] = Profesorado.objects.all()
+        
+        context['selected_anio'] = self.request.GET.get('anio', None)
+        context['selected_profesorado'] = self.request.GET.get('profesorado', None)
+        
+        return context
 
 class MateriaActualizarVista(UpdateView):
     model = Materia
     fields = '__all__'
     template_name = 'materia/actualizar.html'
     success_url = reverse_lazy('materia:materia_leer')
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['anios'] = ['1','2','3','4']
+        context['profesorados'] = Profesorado.objects.all()
+        # Valores seleccionados para mantener selección
+        if self.object:
+            context['selected_anio'] = self.object.anio
+            context['selected_profesorado'] = self.object.profesorado.id
+        return context
 
 
 class MateriaEliminarVista(DeleteView):
