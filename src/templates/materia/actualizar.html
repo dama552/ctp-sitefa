@@ -1,6 +1,25 @@
-<h1>Actulizar Materia</h1>
-<form method="post">
-{% csrf_token %}
-{{ form.as_p }}
-<button type="submit">Guardar cambios</button>
-</form>
+{% extends 'inicio/inicio.html' %}
+
+{% block section %}
+<div class="form-container">
+    <div class="header">
+        <h1><i class="fas fa-edit header-icon"></i> Actualizar Materia</h1>
+        <a href="{% url 'materia:materia_leer' %}">
+            <button class="btn btn-volver">
+                <i class="fas fa-arrow-left"></i> Volver
+            </button>
+        </a>
+    </div>
+
+    <form method="post" class="styled-form">
+        {% csrf_token %}
+        {{ form.as_p }}
+
+        <div class="form-actions">
+            <button type="submit" class="btn btn-guardar">
+                <i class="fas fa-save"></i> Guardar cambios
+            </button>
+        </div>
+    </form>
+</div>
+{% endblock section %}

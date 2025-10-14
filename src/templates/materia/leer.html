@@ -1,9 +1,137 @@
-<h1>Lista de Materias</h1>
-<ul>
-{% for materia in materias %}
-<li>{{ materia.nombre }}</li>
-<li>{{ materia.anio }}</li>
-{% empty %}
-<li>No hay materias disponibles.</li>
-{% endfor %}
-</ul>
+{% extends 'inicio/inicio.html' %}
+
+{% block section %}
+<div class="header mb-3">
+    <h1><i class="fas fa-book header-icon"></i> Materias</h1>
+</div>
+
+<!-- Filtros y barra de búsqueda -->
+<form method="get" class="mb-3">
+    <div class="d-flex align-items-center gap-2 flex-wrap">
+        <!-- Filtro por año -->
+        <div class="flex-grow-1">
+            <label for="anio" class="form-label fw-semibold"></label>
+            <select name="anio" id="anio" class="form-select w-auto d-inline-block" onchange="this.form.submit()">
+                <option value="">Todos los años</option>
+                {% for a in anios %}
+                    <option value="{{ a }}" {% if selected_anio == a|stringformat:"s" %}selected{% endif %}>
+                        {{ a }}º Año
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <!-- Botón de agregar materia a la derecha -->
+        <div class="ms-auto">
+            <a href="{% url 'materia:materia_crear' %}">
+                <button type="button" class="btn btn-crear">
+                    <i class="fas fa-plus"></i> Agregar
+                </button>
+            </a>
+        </div>
+    </div>
+
+    <!-- Buscador por nombre -->
+    <div class="input-group mt-3" style="max-width: 350px;">
+        <input type="text" name="q" class="form-control" placeholder="Buscar por nombre..." value="{{ search_query }}">
+        <button class="btn btn-outline-primary" type="submit" title="Buscar">
+            <i class="fas fa-search"></i>
+        </button>
+    </div>
+</form>
+
+<!-- Tabla de materias -->
+<div class="table-responsive">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Año</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for materia in materias %}
+            <tr>
+                <td>{{ materia.nombre }}</td>
+                <td>{{ materia.anio }}</td>
+                <td>
+                    <div class="actions">
+                        <a href="{% url 'materia:materia_actualizar' materia.id %}">
+                            <button class="btn btn-actualizar" title="Editar">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                        </a>
+                        <a href="{% url 'materia:materia_eliminar' materia.id %}">
+                            <button class="btn btn-eliminar" title="Eliminar">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </a>
+                    </div>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="3" class="text-center">No hay materias disponibles.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<!-- Paginación -->
+{% if is_paginated %}
+<nav aria-label="Page navigation">
+  <ul class="pagination justify-content-center mt-3">
+    {% if page_obj.has_previous %}
+      <li class="page-item">
+        <a class="page-link" href="?{% if selected_anio %}anio={{ selected_anio }}&{% endif %}{% if search_query %}q={{ search_query }}&{% endif %}page={{ page_obj.previous_page_number }}" aria-label="Anterior">
+          <span aria-hidden="true">&laquo;</span>
+        </a>
+      </li>
+    {% endif %}
+
+    {% for num in paginator.page_range %}
+      <li class="page-item {% if page_obj.number == num %}active{% endif %}">
+        <a class="page-link" href="?{% if selected_anio %}anio={{ selected_anio }}&{% endif %}{% if search_query %}q={{ search_query }}&{% endif %}page={{ num }}">{{ num }}</a>
+      </li>
+    {% endfor %}
+
+    {% if page_obj.has_next %}
+      <li class="page-item">
+        <a class="page-link" href="?{% if selected_anio %}anio={{ selected_anio }}&{% endif %}{% if search_query %}q={{ search_query }}&{% endif %}page={{ page_obj.next_page_number }}" aria-label="Siguiente">
+          <span aria-hidden="true">&raquo;</span>
+        </a>
+      </li>
+    {% endif %}
+  </ul>
+</nav>
+{% endif %}
+
+<!-- Estadísticas -->
+<div class="stats mt-3">
+    <div class="stat-item">
+        <div class="stat-value">{{ materias|length }}</div>
+        <div class="stat-label">Total</div>
+    </div>
+</div>
+
+<!-- Estilos opcionales -->
+<style>
+    .btn-crear {
+        background-color: #28a745;
+        color: white;
+        border: none;
+        transition: 0.3s;
+    }
+    .btn-crear:hover {
+        background-color: #218838;
+    }
+    .input-group .form-control {
+        min-width: 220px;
+    }
+    .form-label {
+        margin-right: 8px;
+    }
+</style>
+{% endblock section %}
