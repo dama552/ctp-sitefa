@@ -57,12 +57,16 @@
             <td>{{ materia.anio }}</td>
             <td>{{ materia.profesorado.nombre_instituto|upper }}</td>
             <td c>
+                <a href="{% url 'materia:materia_detalle' materia.id %}" class="btn btn-sm btn-info text-white" title="Ver Detalles">
+                    <i class="fas fa-info-circle"></i>
+                </a>
                 <a href="{% url 'materia:materia_actualizar' materia.id %}" class="btn btn-sm btn-actualizar" title="Editar">
                     <i class="fas fa-edit"></i>
                 </a>
                 <a href="{% url 'materia:materia_eliminar' materia.id %}" class="btn btn-sm btn-eliminar" title="Eliminar">
                     <i class="fas fa-trash"></i>
                 </a>
+                
             </td>
           </tr>
           {% empty %}
