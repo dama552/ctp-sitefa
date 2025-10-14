@@ -1,40 +1,42 @@
 {% extends 'inicio/inicio.html' %}
 
 {% block section %}
-<div class="header">
+<div class="header mb-3">
     <h1><i class="fas fa-book header-icon"></i> Materias</h1>
 </div>
 
-<!-- Barra de búsqueda y filtros -->
-<form method="get" class="d-flex align-items-center gap-2 mb-3 flex-wrap">
-    <!-- Filtro por año -->
-    <select name="anio" class="form-select w-auto">
-        <option value="">Todos los años</option>
-        {% for a in anios %}
-            <option value="{{ a }}" {% if selected_anio == a|stringformat:"s" %}selected{% endif %}>
-                {{ a }}º Año
-            </option>
-        {% endfor %}
-    </select>
+<!-- Filtros y barra de búsqueda -->
+<form method="get" class="mb-3">
+    <div class="d-flex align-items-center gap-2 flex-wrap">
+        <!-- Filtro por año -->
+        <div class="flex-grow-1">
+            <label for="anio" class="form-label fw-semibold"></label>
+            <select name="anio" id="anio" class="form-select w-auto d-inline-block" onchange="this.form.submit()">
+                <option value="">Todos los años</option>
+                {% for a in anios %}
+                    <option value="{{ a }}" {% if selected_anio == a|stringformat:"s" %}selected{% endif %}>
+                        {{ a }}º Año
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <!-- Botón de agregar materia a la derecha -->
+        <div class="ms-auto">
+            <a href="{% url 'materia:materia_crear' %}">
+                <button type="button" class="btn btn-crear">
+                    <i class="fas fa-plus"></i> Agregar
+                </button>
+            </a>
+        </div>
+    </div>
 
     <!-- Buscador por nombre -->
-    <div class="input-group w-auto">
+    <div class="input-group mt-3" style="max-width: 350px;">
         <input type="text" name="q" class="form-control" placeholder="Buscar por nombre..." value="{{ search_query }}">
         <button class="btn btn-outline-primary" type="submit" title="Buscar">
             <i class="fas fa-search"></i>
         </button>
-    </div>
-
-    <!-- Botón de filtrar -->
-    <button type="submit" class="btn btn-primary">Filtrar</button>
-
-    <!-- Botón para agregar nueva materia (alineado a la derecha) -->
-    <div class="ms-auto">
-        <a href="{% url 'materia:materia_crear' %}">
-            <button type="button" class="btn btn-crear">
-                <i class="fas fa-plus"></i> Agregar
-            </button>
-        </a>
     </div>
 </form>
 
@@ -114,4 +116,22 @@
     </div>
 </div>
 
+<!-- Estilos opcionales -->
+<style>
+    .btn-crear {
+        background-color: #28a745;
+        color: white;
+        border: none;
+        transition: 0.3s;
+    }
+    .btn-crear:hover {
+        background-color: #218838;
+    }
+    .input-group .form-control {
+        min-width: 220px;
+    }
+    .form-label {
+        margin-right: 8px;
+    }
+</style>
 {% endblock section %}
