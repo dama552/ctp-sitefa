@@ -2,73 +2,66 @@
 
 {% block section %}
 
-    <div class="header">
-        <h1><i class="fas fa-edit header-icon"></i> Registrar Asistencia</h1>
+    <div class="form-container">
+        <h2 class="text-center mb-4">Registrar Asistencia</h2>
+        
+        <form>
+            <!-- Campo Estudiante -->
+            <div class="mb-3">
+                <label for="estudiante" class="form-label">Estudiante</label>
+                <select id="estudiante" class="form-select">
+                    <option selected>Seleccionar estudiante...</option>
+                    <option value="1">Ana Pérez</option>
+                    <option value="2">Luis Gómez</option>
+                </select>
+            </div>
+
+            <!-- Campo Materia -->
+            <div class="mb-3">
+                <label for="materia" class="form-label">Materia</label>
+                <select id="materia" class="form-select">
+                    <option selected>Seleccionar materia...</option>
+                    <option value="1">Matemáticas</option>
+                    <option value="2">Historia</option>
+                </select>
+            </div>
+
+            <!-- Switch de Asistencia -->
+            <div class="mb-3 form-check form-switch">
+                <input class="form-check-input" type="checkbox" id="id_presente" checked>
+                <label class="form-check-label" for="id_presente">Presente</label>
+            </div>
+
+            <!-- Campo Justificación (oculto por defecto) -->
+            <div id="justificacion-container" class="mb-3 d-none">
+                <label for="justificacion" class="form-label">Justificación</label>
+                <textarea class="form-control" id="justificacion" rows="3"></textarea>
+            </div>
+
+            <!-- Botón Guardar -->
+            <button type="submit" class="btn btn-primary">
+                <i class="fas fa-save"></i> Guardar
+            </button>
+        </form>
     </div>
 
-    <!-- Muestra errores del formulario -->
-    {% if form.errors %}
-        <div class="alert alert-danger mt-3">
-            <h5>Por favor, corrige los siguientes errores:</h5>
-            <ul>
-                {% for field, errors in form.errors.items %}
-                    <li><strong>{{ field }}:</strong> {{ errors|join:", " }}</li>
-                {% endfor %}
-            </ul>
-        </div>
-    {% endif %}
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const presenteCheckbox = document.getElementById('id_presente');
+            const justificacionContainer = document.getElementById('justificacion-container');
 
-    <form method="post" class="mt-4">
-        {% csrf_token %}
-
-        <!-- Selección de estudiante -->
-        <div class="mb-3">
-            {{ form.estudiante.label_tag }} {{ form.estudiante }}
-        </div>
-
-        <!-- Selección de materia -->
-        <div class="mb-3">
-            {{ form.materia.label_tag }} {{ form.materia }}
-        </div>
-
-        <!-- Switch de asistencia -->
-        <div class="mb-3 form-check form-switch">
-            <input class="form-check-input" type="checkbox" id="id_presente"
-                   name="{{ form.presente.name }}" {% if form.presente.value %}checked{% endif %}>
-            <label class="form-check-label" for="id_presente"><strong>Presente</strong></label>
-        </div>
-
-        <!-- Justificación -->
-        <div id="justificacion-container" class="mb-3 {% if form.presente.value %}d-none{% endif %}">
-            {{ form.justificacion.label_tag }} {{ form.justificacion }}
-        </div>
-
-        <div class="d-flex justify-content-end gap-2">
-            <a href="{% url 'asistencia:asistencia_leer' %}" class="btn btn-secondary">
-                <i class="fas fa-arrow-left"></i> Volver a la lista
-            </a>
-            <button type="submit" class="btn btn-success">
-                <i class="fas fa-save"></i> Guardar Asistencia
-            </button>
-
-    </form>
-</div>
-
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const presenteCheckbox = document.getElementById('id_presente');
-        const justificacionContainer = document.getElementById('justificacion-container');
-
-        function toggleJustificacion() {
-            if (presenteCheckbox.checked) {
-                justificacionContainer.classList.add('d-none');
-            } else {
-                justificacionContainer.classList.remove('d-none');
+            function toggleJustificacion() {
+                if (presenteCheckbox.checked) {
+                    justificacionContainer.classList.add('d-none');
+                } else {
+                    justificacionContainer.classList.remove('d-none');
+                }
             }
-        }
 
-        toggleJustificacion();
-        presenteCheckbox.addEventListener('change', toggleJustificacion);
-    });
-</script>
-{% endblock %}
+            toggleJustificacion();
+            presenteCheckbox.addEventListener('change', toggleJustificacion);
+        });
+    </script>
+</body>
+</html>
+{% endblock section %}
