@@ -2,52 +2,75 @@
 
 {% block section %}
 
-    <div class="form-container">
-        <h2 class="text-center mb-4">Registrar Asistencia</h2>
-        
-        <form>
-            <!-- Campo Estudiante -->
-            <div class="mb-3">
-                <label for="estudiante" class="form-label">Estudiante</label>
-                <select id="estudiante" class="form-select">
-                    <option selected>Seleccionar estudiante...</option>
-                    <option value="1">Ana Pérez</option>
-                    <option value="2">Luis Gómez</option>
-                </select>
-            </div>
+    <div class="header">
+        <h1><i class="fas fa-edit header-icon"></i> Registrar Asistencia</h1>
+    </div>
 
-            <!-- Campo Materia -->
-            <div class="mb-3">
-                <label for="materia" class="form-label">Materia</label>
-                <select id="materia" class="form-select">
-                    <option selected>Seleccionar materia...</option>
-                    <option value="1">Matemáticas</option>
-                    <option value="2">Historia</option>
-                </select>
-            </div>
+    <!-- Muestra errores generales del formulario -->
+    {% if form.non_field_errors %}
+        <div class="alert alert-danger mt-3">
+            {{ form.non_field_errors }}
+        </div>
+    {% endif %}
 
-            <!-- Switch de Asistencia -->
-            <div class="mb-3 form-check form-switch">
-                <input class="form-check-input" type="checkbox" id="id_presente" checked>
-                <label class="form-check-label" for="id_presente">Presente</label>
-            </div>
+    <!-- El formulario ahora usa method="post" y el token de seguridad CSRF -->
+    <form method="post" class="mt-4">
+        {% csrf_token %}
 
-            <!-- Campo Justificación (oculto por defecto) -->
-            <div id="justificacion-container" class="mb-3 d-none">
-                <label for="justificacion" class="form-label">Justificación</label>
-                <textarea class="form-control" id="justificacion" rows="3"></textarea>
-            </div>
+        <!-- Campo Estudiante (dinámico) -->
+        <div class="mb-3">
+            {{ form.estudiante.label_tag }}
+            {{ form.estudiante }}
+            <!-- Muestra errores específicos de este campo -->
+            {% if form.estudiante.errors %}
+                <div class="form-text text-danger">
+                    {{ form.estudiante.errors|join:", " }}
+                </div>
+            {% endif %}
+        </div>
 
-            <!-- Botón Guardar -->
+        <!-- Campo Materia (dinámico) -->
+        <div class="mb-3">
+            {{ form.materia.label_tag }}
+            {{ form.materia }}
+            {% if form.materia.errors %}
+                <div class="form-text text-danger">
+                    {{ form.materia.errors|join:", " }}
+                </div>
+            {% endif %}
+        </div>
+
+        <!-- Switch de Asistencia -->
+        <div class="mb-3 form-check form-switch">
+            <input class="form-check-input" type="checkbox" id="{{ form.presente.id_for_label }}"
+                   name="{{ form.presente.name }}" {% if form.presente.value %}checked{% endif %}>
+            <label class="form-check-label" for="{{ form.presente.id_for_label }}"><strong>Presente</strong></label>
+        </div>
+
+        <!-- Campo Justificación (dinámico y condicional) -->
+        <div id="justificacion-container" class="mb-3 {% if form.presente.value %}d-none{% endif %}">
+            {{ form.justificacion.label_tag }}
+            {{ form.justificacion }}
+            {% if form.justificacion.errors %}
+                <div class="form-text text-danger">
+                    {{ form.justificacion.errors|join:", " }}
+                </div>
+            {% endif %}
+        </div>
+
+        <div class="d-flex justify-content-end gap-2">
+            <a href="{% url 'asistencia:asistencia_leer' %}" class="btn btn-secondary">
+                <i class="fas fa-arrow-left"></i> Volver a la lista
+            </a>
             <button type="submit" class="btn btn-primary">
                 <i class="fas fa-save"></i> Guardar
             </button>
-        </form>
-    </div>
+        </div>
+    </form>
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            const presenteCheckbox = document.getElementById('id_presente');
+            const presenteCheckbox = document.getElementById('{{ form.presente.id_for_label }}');
             const justificacionContainer = document.getElementById('justificacion-container');
 
             function toggleJustificacion() {
@@ -62,6 +85,5 @@
             presenteCheckbox.addEventListener('change', toggleJustificacion);
         });
     </script>
-</body>
-</html>
+
 {% endblock section %}
