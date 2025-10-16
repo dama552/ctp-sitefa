@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
+from apps.estudiante.models import Estudiante
 from apps.materia.models import Materia
 from .models import Asistencia
 
@@ -49,6 +50,17 @@ class AsistenciaCrearView(CreateView):
     fields = '__all__'
     template_name = 'asistencia/crear.html'
     success_url = reverse_lazy('asistencia:asistencia_leer')
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+
+        # Lista de profesorados activos
+        context['materias'] = Materia.objects.all()
+        context['estudiantes'] = Estudiante.objects.all()
+
+        return context
+
 
 class AsistenciaActualizarView(UpdateView):
     model = Asistencia

@@ -4,7 +4,7 @@
 <div class="form-container">
     <!-- BARRA SUPERIOR: Título y Botón Volver -->
     <div class="d-flex justify-content-between align-items-center">
-        <h1><i class="fas fa-edit"></i> Registrar Asistencia</h1>
+        <h1>Crear Asistencia</h1>
         <a href="{% url 'asistencia:asistencia_leer' %}">
             <button class="btn btn-volver" type="button">
                 <i class="fas fa-arrow-left"></i> Volver
@@ -24,44 +24,42 @@
             </div>
         {% endif %}
 
-        <!-- Campo Estudiante (dinámico) -->
+        <!-- Campo Estudiante con DATALIST -->
         <div class="mb-3">
-            <label for="{{ form.estudiante.id_for_label }}" class="form-label">Estudiante:</label>
-            {{ form.estudiante }}
-            {% if form.estudiante.errors %}
-                <div class="form-text text-danger">
-                    {{ form.estudiante.errors|join:", " }}
-                </div>
-            {% endif %}
+            <label for="id_estudiante" class="form-label">Estudiantes:</label>
+            <select name="estudiante" id="id_estudiante" class="form-select" required>
+                <option value="">---------</option>
+                {% for estudiante in estudiantes %}
+                    <option value="{{ estudiante.id }}">
+                        {{estudiante.nombre}}
+                    </option>
+                {% endfor %}
+            </select>
         </div>
-
-        <!-- Campo Materia (dinámico) -->
+            
+        <!-- Campo Materia con DATALIST -->
         <div class="mb-3">
-            <label for="{{ form.materia.id_for_label }}" class="form-label">Materia:</label>
-            {{ form.materia }}
-            {% if form.materia.errors %}
-                <div class="form-text text-danger">
-                    {{ form.materia.errors|join:", " }}
-                </div>
-            {% endif %}
+            <label for="id_materia" class="form-label">Materias:</label>
+            <select name="materia" id="id_materia" class="form-select" required>
+                <option value="">---------</option>
+                {% for materia in materias %}
+                    <option value="{{ prof.id }}" {% if selected_profesorado == prof.id %}selected{% endif %}>
+                        {{materia.nombre}}
+                    </option>
+                {% endfor %}
+            </select>
         </div>
 
         <!-- Switch de Asistencia -->
         <div class="mb-3 form-check form-switch">
-            <input class="form-check-input" type="checkbox" id="{{ form.presente.id_for_label }}"
-                   name="{{ form.presente.name }}" {% if form.presente.value %}checked{% endif %}>
-            <label class="form-check-label" for="{{ form.presente.id_for_label }}"><strong>Presente</strong></label>
+            <input class="form-check-input" type="checkbox" id="id_presente" name="presente" checked>
+            <label class="form-check-label" for="id_presente"><strong>Presente</strong></label>
         </div>
 
         <!-- Campo Justificación (dinámico y condicional) -->
-        <div id="justificacion-container" class="mb-3 {% if form.presente.value %}d-none{% endif %}">
-            <label for="{{ form.justificacion.id_for_label }}" class="form-label">Justificación:</label>
-            {{ form.justificacion }}
-            {% if form.justificacion.errors %}
-                <div class="form-text text-danger">
-                    {{ form.justificacion.errors|join:", " }}
-                </div>
-            {% endif %}
+        <div id="justificacion-container" class="mb-3 d-none">
+            <label for="id_justificacion" class="form-label">Justificación:</label>
+            <textarea name="justificacion" cols="40" rows="3" class="form-control" id="id_justificacion"></textarea>
         </div>
 
         <!-- BOTÓN GUARDAR (alineado a la derecha) -->
@@ -75,7 +73,7 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', function () {
-        const presenteCheckbox = document.getElementById('{{ form.presente.id_for_label }}');
+        const presenteCheckbox = document.getElementById('id_presente');
         const justificacionContainer = document.getElementById('justificacion-container');
 
         function toggleJustificacion() {
