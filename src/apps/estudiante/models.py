@@ -10,11 +10,12 @@ class Estudiante(models.Model):
 	direccion = models.CharField(max_length=100)
 	fecha_nacimiento = models.DateField(null=True)
 	ciclo_ingreso = models.CharField(max_length=40)
-	estados = {
-		"REGULAR": "Regular",
-		"IRREGULAR": "Irregular",
-		"OTRO": "Otro"
-	}
+	estados = [ 
+("REGULAR", "Regular"),
+("IRREGULAR", "Irregular"),
+("OTRO", "Otro"),
+
+	]
 	estado = models.CharField(max_length=50, choices=estados)
 	materia = models.ManyToManyField(Materia)
 
