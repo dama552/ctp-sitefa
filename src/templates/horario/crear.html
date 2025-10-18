@@ -1,6 +1,67 @@
-<h1>Crear Horario</h1>
-<form method="post">
-{% csrf_token %}
-{{ form.as_p }}
-<button type="submit">Guardar</button>
-</form>
+{% extends 'inicio/inicio.html' %}
+
+{% block section %}
+<div class="form-container">
+    <div class="d-flex justify-content-between align-items-center">
+        <h1>Crear Horario</h1>
+        <a href="{% url 'horario:horario_leer' %}">
+            <button class="btn btn-volver">
+                <i class="fas fa-arrow-left"></i> Volver
+            </button>
+        </a>
+    </div>
+    <hr>
+
+    <form method="post" class="styled-form">
+        {% csrf_token %}
+
+        <!-- Materia -->
+        <div class="mb-3">
+            <label for="id_materia" class="form-label">Materia:</label>
+            <select name="materia" id="id_materia" class="form-select" required>
+                <option value="">---------</option>
+                {% for mater in materias %}
+                    <option value="{{ mater.id }}" {% if selected_materia == mater.id %}selected{% endif %}>
+                        {{ mater.nombre|upper }}
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <!-- Día de la semana -->
+        <div class="mb-3">
+            <label for="id_dia_semana" class="form-label">Día de la semana:</label>
+            <select name="dia_semana" id="id_dia_semana" class="form-select" required>
+                <option value="">---------</option>
+                <option value="LUN" {% if selected_dia == "LUN" %}selected{% endif %}>Lunes</option>
+                <option value="MAR" {% if selected_dia == "MAR" %}selected{% endif %}>Martes</option>
+                <option value="MIE" {% if selected_dia == "MIE" %}selected{% endif %}>Miércoles</option>
+                <option value="JUE" {% if selected_dia == "JUE" %}selected{% endif %}>Jueves</option>
+                <option value="VIE" {% if selected_dia == "VIE" %}selected{% endif %}>Viernes</option>
+                <option value="SAB" {% if selected_dia == "SAB" %}selected{% endif %}>Sábado</option>
+            </select>
+        </div>
+
+        <!-- Hora de inicio -->
+        <div class="mb-3">
+            <label for="id_hora_inicio" class="form-label">Hora de inicio:</label>
+            <input type="time" name="hora_inicio" id="id_hora_inicio" class="form-control" required
+                  value="{{ form.hora_inicio.value|default_if_none:'' }}">
+        </div>
+
+        <!-- Hora de fin -->
+        <div class="mb-3">
+            <label for="id_hora_fin" class="form-label">Hora de fin:</label>
+            <input type="time" name="hora_fin" id="id_hora_fin" class="form-control" required
+                   value="{{ form.hora_fin.value|default_if_none:'' }}">
+        </div>
+
+        <!-- Botón Guardar -->
+        <div class="form-actions">
+            <button type="submit" class="btn btn-guardar">
+                <i class="fas fa-save"></i> Guardar
+            </button>
+        </div>
+    </form>
+</div>
+{% endblock section %}

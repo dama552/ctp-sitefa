@@ -247,7 +247,7 @@ tr:hover {
     td {
         padding: 10px;
         font-size: 14px;
-       
+
     }
 
     .actions {
@@ -275,4 +275,18 @@ tr:hover {
         opacity: 1;
         transform: translateY(0);
     }
+}
+
+.btn-guardar {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    transition: 0.3s;
+}
+
+.btn-volver {
+    background-color: #6c757d;
+    color: white;
+    border: none;
+    transition: 0.3s;
 }

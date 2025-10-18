@@ -17,6 +17,8 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import include, path
 
+from apps.seguridad.views import CustomLoginView, CustomLogoutView
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('calificacion/', include('apps.calificacion.urls')),
@@ -27,5 +29,9 @@ urlpatterns = [
     path('docente/', include('apps.docente.urls')),
     path('seguridad/', include('apps.seguridad.urls')),
     path('inicio/', include('apps.inicio.urls')),
+    
+    #Seguridad
+    path('', CustomLoginView.as_view(), name='login'),
+    path('logout/', CustomLogoutView.as_view(), name='logout'),
 ]
 
