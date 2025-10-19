@@ -1,6 +1,69 @@
-<H1>¿estas seguro de eliminar la calificación?</H1>
+{% extends 'inicio/inicio.html' %}
+{# Extiende la plantilla base 'inicio/inicio.html' para mantener la apariencia y los bloques comunes. #}
+
+{% block section %}
+{# Abre el bloque 'section' que la plantilla base define para el contenido principal. #}
+
+{% if calificacion %}
+{# Verifica que exista el objeto 'calificacion' pasado desde la vista. Si no existe, se mostrará la rama {% else %}. #}
+
+<div class="header">
+    <h1>
+        <i class="fas fa-exclamation-triangle header-icon text-danger"></i>
+        Confirmar Eliminación
+    </h1>
+</div>
+{# Encabezado de la página con ícono y título que indican acción de eliminación. #}
+
+<div class="alert alert-warning mt-4" role="alert">
+    <h4 class="alert-heading">¿Estás seguro?</h4>
+    <p>
+        Estás a punto de eliminar la calificación de
+        <strong>{{ calificacion.estudiante|default:"—" }}</strong>
+        para la materia
+        <strong>{{ calificacion.materia|default:"—" }}</strong>
+        del día
+        <strong>{{ calificacion.fecha|default:"—" }}</strong>.
+        Nota: <strong>{{ calificacion.nota|default:"—" }}</strong>.
+    </p>
+    <hr>
+    <p class="mb-0">Esta acción no se puede deshacer.</p>
+</div>
+
+
 <form method="post">
     {% csrf_token %}
-    <p>¿Estás seguro de que deseas eliminar esta calificación?</p>
-    <button type="submit">Eliminar Calificación</button>
+    {# Token CSRF requerido por Django para proteger contra CSRF en solicitudes POST. #}
+    <input type="hidden" name="confirm" value="1">
+    {# Campo oculto que puede usar la vista para detectar confirmación explícita de eliminación. #}
+    <div class="d-flex justify-content-end gap-2 mt-4">
+        <a href="{% url 'calificacion:calificacion_leer' %}" class="btn btn-secondary">
+            <i class="fas fa-arrow-left"></i> Cancelar
+        </a>
+        {# Enlace para cancelar: redirige a la vista de lectura/listado de calificaciones. #}
+        <button type="submit" class="btn btn-danger">
+            <i class="fas fa-trash"></i> Sí, Eliminar
+        </button>
+        {# Botón que envía el formulario POST para ejecutar la eliminación en la vista. #}
+    </div>
 </form>
+
+{% else %}
+{# Rama que se muestra si 'calificacion' no fue proporcionada o es None. #}
+
+<div class="alert alert-danger mt-4" role="alert">
+    <h4 class="alert-heading">Calificación no encontrada</h4>
+    <p class="mb-0">No se encontró la calificación solicitada.</p>
+</div>
+<div class="d-flex justify-content-end gap-2 mt-4">
+    <a href="javascript:history.back()" class="btn btn-secondary">
+        <i class="fas fa-arrow-left"></i> Volver
+    </a>
+</div>
+{# Mensaje de error y botón para volver a la página anterior si el objeto no existe. #}
+
+{% endif %}
+{# Cierre de la condición if. #}
+
+{% endblock section %}
+{# Cierre del bloque 'section'. #}

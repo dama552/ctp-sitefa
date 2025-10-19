@@ -1,6 +1,160 @@
-<h1>lista de califiaciones</h1>
-<ul>
-    {% for calificacion in calificaciones %}
-        <li>{{ calificacion.nota }}</li>
-    {% endfor %} 
-</ul>
+{% extends 'inicio/inicio.html' %}
+
+{% block section %}
+<div class="header">
+    <h1>Calificaciones</h1>
+    <!-- Botón para crear nueva calificación -->
+    <a href="{% url 'calificacion:calificacion_crear' %}">
+        <button class="btn btn-crear" aria-label="Crear calificación">
+            <i class="fas fa-plus"></i> Agregar
+        </button>
+    </a>
+</div>
+
+<hr>
+
+<!-- Filtros -->
+<form method="get" class="d-flex gap-2 mb-3">
+    <select name="anio" class="form-select w-auto">
+        <option value="">Todos los años</option>
+        {% for a in anios %}
+            <option value="{{ a }}" {% if selected_anio == a|stringformat:"s" %}selected{% endif %}>{{ a }}º Año</option>
+        {% endfor %}
+    </select>
+
+    <select name="materia" class="form-select w-auto">
+        <option value="">Todas las materias</option>
+        {% for m in materias %}
+            <option value="{{ m.id }}" {% if selected_materia == m.id|stringformat:"s" %}selected{% endif %}>{{ m.nombre }} - {{ m.anio }}</option>
+        {% endfor %}
+    </select>
+
+    <button type="submit" class="btn btn-primary">Filtrar</button>
+</form>
+
+<!-- Tabla de calificaciones -->
+<div class="table-responsive">
+    <table class="table table-striped" id="calificaciones-table">
+        <thead>
+            <tr>
+                <th>Estudiante</th>
+                <th>Materia</th>
+                <th>Año</th>
+                <th>Calificación</th>
+                <th>Fecha</th>
+                <th>Observaciones</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for c in calificaciones %}
+            <tr data-nota="{{ c.nota|default_if_none:"" }}">
+                <td>
+                    {% if c.estudiante.nombre or c.estudiante.apellido %}
+                        {{ c.estudiante.nombre }} {{ c.estudiante.apellido }}
+                    {% else %}
+                        {{ c.estudiante }}
+                    {% endif %}
+                </td>
+                <td>{{ c.materia.nombre }}</td>
+                <td>{{ c.materia.anio }}</td>
+                <td>{{ c.nota }}</td>
+                <td>{% if c.fecha %}{{ c.fecha|date:"d/m/Y" }}{% else %}-{% endif %}</td>
+                <td>{{ c.observacion|default:"-" }}</td>
+                <td>
+                    <div class="actions">
+                        <a href="{% url 'calificacion:calificacion_actualizar' c.id %}">
+                            <button class="btn btn-actualizar" title="Editar" aria-label="Editar">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                        </a>
+                        <a href="{% url 'calificacion:calificacion_eliminar' c.id %}">
+                            <button class="btn btn-eliminar" title="Eliminar" aria-label="Eliminar">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </a>
+                    </div>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="7" class="text-center">No hay calificaciones registradas.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<!-- Paginación -->
+{% if is_paginated %}
+<nav aria-label="Page navigation">
+  <ul class="pagination justify-content-center mt-3">
+    {% if page_obj.has_previous %}
+      <li class="page-item">
+        <a class="page-link" href="?{% if selected_anio %}anio={{ selected_anio }}&{% endif %}{% if selected_estudiante %}estudiante={{ selected_estudiante }}&{% endif %}{% if selected_materia %}materia={{ selected_materia }}&{% endif %}page={{ page_obj.previous_page_number }}" aria-label="Anterior">
+          <span aria-hidden="true">&laquo;</span>
+        </a>
+      </li>
+    {% endif %}
+    {% for num in paginator.page_range %}
+      <li class="page-item {% if page_obj.number == num %}active{% endif %}">
+        <a class="page-link" href="?{% if selected_anio %}anio={{ selected_anio }}&{% endif %}{% if selected_estudiante %}estudiante={{ selected_estudiante }}&{% endif %}{% if selected_materia %}materia={{ selected_materia }}&{% endif %}page={{ num }}">{{ num }}</a>
+      </li>
+    {% endfor %}
+    {% if page_obj.has_next %}
+      <li class="page-item">
+        <a class="page-link" href="?{% if selected_anio %}anio={{ selected_anio }}&{% endif %}{% if selected_estudiante %}estudiante={{ selected_estudiante }}&{% endif %}{% if selected_materia %}materia={{ selected_materia }}&{% endif %}page={{ page_obj.next_page_number }}" aria-label="Siguiente">
+          <span aria-hidden="true">&raquo;</span>
+        </a>
+      </li>
+    {% endif %}
+  </ul>
+</nav>
+{% endif %}
+
+<!-- Estadísticas -->
+<div class="stats d-flex gap-3 mt-3">
+    <div class="stat-item">
+        <div class="stat-value" id="total-count">{{ calificaciones|length }}</div>
+        <div class="stat-label">Total</div>
+    </div>
+    <div class="stat-item">
+        <div class="stat-value" id="average-note">-</div>
+        <div class="stat-label">Promedio</div>
+    </div>
+    <div class="stat-item">
+        <div class="stat-value" id="aprobadas-count">0</div>
+        <div class="stat-label">Aprobadas</div>
+    </div>
+    <div class="stat-item">
+        <div class="stat-value" id="reprobadas-count">0</div>
+        <div class="stat-label">Reprobadas</div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const rows = document.querySelectorAll('#calificaciones-table tbody tr[data-nota]');
+    let sum = 0;
+    let count = 0;
+    let aprobadas = 0;
+    let reprobadas = 0;
+    const passingThreshold = 6; // ajustar si es necesario
+
+    rows.forEach(row => {
+        const notaAttr = row.getAttribute('data-nota');
+        if (!notaAttr) return;
+        const nota = parseFloat(notaAttr);
+        if (isNaN(nota)) return;
+        sum += nota;
+        count++;
+        if (nota >= passingThreshold) aprobadas++; else reprobadas++;
+    });
+
+    const avgEl = document.getElementById('average-note');
+    avgEl.textContent = count ? (sum / count).toFixed(2) : '-';
+    document.getElementById('aprobadas-count').textContent = aprobadas;
+    document.getElementById('reprobadas-count').textContent = reprobadas;
+});
+</script>
+{% endblock section %}
