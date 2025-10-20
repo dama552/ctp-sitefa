@@ -1,6 +1,155 @@
-<form method="post">
+{% extends 'inicio/inicio.html' %}
+
+{% block section %}
+<!-- 🔹 Título centrado -->
+<h1 class="titulo">Crear Estudiante</h1>
+
+<!-- 🔹 Formulario alineado normal -->
+<form method="post" class="formulario-estudiante">
     {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Crear Estudiante</button>
+
+    <div class="form-columns">
+        <!-- Columna izquierda -->
+        <div class="columna izquierda">
+            <p>
+                <label for="id_nombre">Nombre:</label>
+                <input type="text" name="nombre" maxlength="200" required id="id_nombre">
+            </p>
+
+            <p>
+                <label for="id_apellido">Apellido:</label>
+                <input type="text" name="apellido" maxlength="200" required id="id_apellido">
+            </p>
+
+            <p>
+                <label for="id_dni">DNI:</label>
+                <input type="number" name="dni" required id="id_dni">
+            </p>
+
+            <p>
+                <label for="id_email">Email:</label>
+                <input type="email" name="email" maxlength="70" required id="id_email">
+            </p>
+
+            <p>
+                <label for="id_telefono">Teléfono:</label>
+                <input type="number" name="telefono" required id="id_telefono">
+            </p>
+        </div>
+
+        <!-- Columna derecha -->
+        <div class="columna derecha">
+            <p>
+                <label for="id_direccion">Dirección:</label>
+                <input type="text" name="direccion" maxlength="100" required id="id_direccion">
+            </p>
+
+            <p>
+                <label for="id_fecha_nacimiento">Fecha de nacimiento:</label>
+                <input type="date" name="fecha_nacimiento" required id="id_fecha_nacimiento">
+            </p>
+
+            <p>
+                <label for="id_ciclo_ingreso">Ciclo ingreso:</label>
+                <input type="text" name="ciclo_ingreso" maxlength="40" required id="id_ciclo_ingreso">
+            </p>
+
+            <p>
+                <label for="id_estado">Estado:</label>
+                <select name="estado" required id="id_estado">
+                    <option value="">---------</option>
+                    <option value="REGULAR">Regular</option>
+                    <option value="IRREGULAR">Irregular</option>
+                    <option value="OTRO">Otro</option>
+                </select>
+            </p>
+
+            <p>
+                <label for="id_materia">Materia:</label>
+                <select name="materia" required id="id_materia" multiple>
+                    <option value="1">Programación Web - 2021</option>
+                </select>
+            </p>
+        </div>
+    </div>
+
+    <!-- Botón abajo a la izquierda -->
+    <div class="boton-container">
+        <button type="submit" class="boton-submit">Crear</button>
+    </div>
 </form>
-    
+
+<style>
+/* --- Solo centramos el texto del título --- */
+.titulo {
+    text-align: center;     /* 🔹 centra el texto horizontalmente */
+    font-size: 2rem;
+    margin: 1.5rem 0;
+    color: #333;
+    font-weight: bold;
+}
+
+/* --- El formulario queda igual --- */
+.formulario-estudiante {
+    max-width: 900px;       /* ancho opcional */
+    margin-left: 0;         /* alineado a la izquierda */
+}
+
+.form-columns {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    margin-bottom: 1rem;
+}
+
+.columna p {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1rem;
+}
+
+label {
+    font-weight: bold;
+    margin-bottom: 0.3rem;
+    color: #444;
+}
+
+input, select {
+    padding: 0.5rem;
+    border: 1px solid #bbb;
+    border-radius: 6px;
+    font-size: 1rem;
+}
+
+.boton-container {
+    text-align: left;      /* 🔹 botón a la izquierda */
+    margin-top: 1.5rem;
+}
+
+.boton-submit {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 0.8rem 2rem;
+    border-radius: 8px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.boton-submit:hover {
+    background-color: #0056b3;
+}
+
+/* Responsivo */
+@media (max-width: 768px) {
+    .form-columns {
+        grid-template-columns: 1fr;
+    }
+
+    .boton-container {
+        text-align: center; /* en móvil el botón se centra */
+    }
+}
+</style>
+{% endblock section %}

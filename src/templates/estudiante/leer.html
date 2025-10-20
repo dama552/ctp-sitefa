@@ -1,12 +1,57 @@
-{% block section %}
-<h1>Lista de Estudiantes</h1>
-    <ul>
-        {% for estudiante in estudiantes %}
-            <li>{{ estudiante.nombre }}</li>
-        {% empty %}
-            <li>No hay Estudiantes cargados.</li>
-        {% endfor %}
-    </ul>
-{% endblock section %}
-    
+{% extends 'inicio/inicio.html' %}
 
+{% block section %}
+ <div class="header">
+            <h1><i class="fas fa-clipboard-list header-icon"></i>Estudiantes</h1>
+            <a href="{% url 'estudiante:estudiante_crear' %}">
+                <button class="btn btn-crear">
+                    <i class="fas fa-plus"></i> Agregar
+                </button>
+            </a>
+        </div>
+
+<!-- Tabla de asistencias -->
+<div class="table-responsive">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Apellido</th>
+                <th>Estado</th>
+                <th>Materia</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for a in estudiantes %}
+            <tr>
+                <td>{{ a.nombre }}</td>
+                <td>{{ a.apellido }}</td>
+                <td>{{ a.estado }}</td>
+                <td>{{ a.materia }}</td>
+                 <td>
+                            <div class="actions">
+                                <!-- Botón Actualizar -->
+                                <a href="{% url 'estudiante:estudiante_actualizar' a.id %}">
+                                    <button class="btn btn-actualizar" title="Editar">
+                                        <i class="fas fa-edit"></i> 
+                                    </button>
+                                </a>
+                                <!-- Botón Eliminar -->
+                                <a href="{% url 'estudiante:estudiante_eliminar' a.id %}">
+                                    <button class="btn btn-eliminar" title="Eliminar">
+                                        <i class="fas fa-trash"></i> 
+                                    </button>
+                                </a>
+                            </div>
+                        </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="7" class="text-center">No hay estudiantes registrados.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock section %}
