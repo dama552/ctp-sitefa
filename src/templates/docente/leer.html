@@ -30,7 +30,7 @@
 <!-- Tabla de docentes -->
 <div class="table-responsive">
     <table class="table table-striped align-middle">
-    <thead class="table-dark">
+        <thead class="table-dark">
             <tr>
                 <th>Nombre</th>
                 <th>Apellido</th>
@@ -50,15 +50,58 @@
                 <td>{{ docente.telefono }}</td>
                 <td>
                     <div class="d-flex gap-1">
+                        <!-- Botón VER -->
+                        <a href="#" class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#modalDocente{{ docente.pk }}" title="Ver información">
+                            <i class="fas fa-eye"></i>
+                        </a>
+
+                        <!-- Botón EDITAR -->
                         <a href="{% url 'docente:docente_actualizar' docente.pk %}" class="btn btn-actualizar btn-sm" title="Editar">
                             <i class="fas fa-edit"></i>
                         </a>
+
+                        <!-- Botón ELIMINAR -->
                         <a href="{% url 'docente:docente_eliminar' docente.pk %}" class="btn btn-eliminar btn-sm" title="Eliminar">
                             <i class="fas fa-trash"></i>
                         </a>
                     </div>
                 </td>
             </tr>
+
+            <!-- Modal de información del docente -->
+            <div class="modal fade" id="modalDocente{{ docente.pk }}" tabindex="-1" aria-labelledby="modalLabel{{ docente.pk }}" aria-hidden="true">
+              <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="modalLabel{{ docente.pk }}">Información del docente</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                  </div>
+                  <div class="modal-body">
+                    <p><strong>Nombre:</strong> {{ docente.nombre }}</p>
+                    <p><strong>Apellido:</strong> {{ docente.apellido }}</p>
+                    <p><strong>DNI:</strong> {{ docente.dni }}</p>
+                    <p><strong>Email:</strong> {{ docente.email }}</p>
+                    <p><strong>Teléfono:</strong> {{ docente.telefono }}</p>
+                    <p><strong>Dirección:</strong> {{ docente.direccion }}</p>
+                    <p><strong>Fecha de nacimiento:</strong> {{ docente.fecha_nacimiento|date:"d/m/Y" }}</p>
+                    <p><strong>Materia:</strong>
+                        {% if docente.materia.all %}
+                            {{ docente.materia.all|join:", " }}
+                        {% else %}
+                            No asignada
+                        {% endif %}
+                    </p>
+                  </div>
+                  <div class="modal-footer">
+                    <a href="{% url 'materia:materia_leer' %}" class="btn btn-primary">
+                        Ir a Materias
+                    </a>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
             {% empty %}
             <tr>
                 <td colspan="9" class="text-center">
@@ -102,6 +145,7 @@
   </ul>
 </nav>
 {% endif %}
+
 <hr>
 <!-- Estadísticas -->
 <div class="stats mt-4 text-center">
