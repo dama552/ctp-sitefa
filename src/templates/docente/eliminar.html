@@ -1,43 +1,30 @@
 {% extends 'inicio/inicio.html' %}
-
 {% block section %}
-    <div class="confirmation-container">
-        <div class="header">
-            <h1><span class="header-icon">⚠️</span> Confirmar Eliminación</h1>
-        </div>
-
-        <div class="confirmation-box">
-            <p class="confirmation-message">
-                ¿Estás seguro de que quieres eliminar al docente:
-            </p>
-            
-            <h2 class="object-to-delete">
-                <strong>{{ object.nombre }} {{ object.apellido }}</strong>
-            </h2>
-            
-            <p class="warning-message">
-                Esta acción no se puede deshacer.
-            </p>
-        </div>
-
-        <!-- 
-          PASO 1: El formulario que enviará la orden de eliminación.
-          Al presionar el botón de tipo "submit", se enviará esta información a la vista.
-        -->
-        <form method="POST">
-            {% csrf_token %}
-
-            <div class="form-actions">
-                <!-- 
-                  PASO 2: Este botón es el que activa todo el proceso.
-                  Al hacer clic, se envía el formulario a la DocenteEliminarVista.
-                  La vista eliminará al docente de la base de datos (esto es "guardar los cambios").
-                -->
-                <button type="submit" class="btn btn-eliminar">🗑️ Sí, Eliminar Docente</button>
-                
-                <!-- Este botón cancela la acción y vuelve a la lista directamente -->
-                <a href="{% url 'docente:docente_leer' %}" class="btn btn-cancelar">❌ Cancelar</a>
-            </div>
-        </form>
+<div
+  class="d-flex justify-content-center"
+  style="padding-top: 100px; padding-bottom: 50px"
+>
+  <div class="card shadow-lg p-4" style="max-width: 450px; border-radius: 15px">
+    <div class="text-center mb-4">
+      <i class="fas fa-exclamation-triangle fa-3x text-warning mb-3"></i>
+      <h3 class="fw-bold">Confirmar Eliminación</h3>
     </div>
+    <p class="text-center mb-4">
+      ¿Estás seguro que querés eliminar al docente
+      <strong>{{ object.apellido }}, {{ object.nombre }}</strong>?
+    </p>
+    <form method="post" class="d-flex justify-content-between">
+      {% csrf_token %}
+      <button type="submit" class="btn btn-danger flex-fill me-2">
+        <i class="fas fa-trash me-1"></i> Sí, eliminar
+      </button>
+      <a
+        href="{% url 'docente:docente_leer' %}"
+        class="btn btn-outline-secondary flex-fill ms-2"
+      >
+        <i class="fas fa-times me-1"></i> Cancelar
+      </a>
+    </form>
+  </div>
+</div>
 {% endblock section %}
