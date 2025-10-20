@@ -3,6 +3,11 @@
 {% block section %}
 <!-- 🔹 Título centrado -->
 <h1 class="titulo">Crear Estudiante</h1>
+<a href="{% url 'estudiante:estudiante_leer' %}">
+    <button class="btn btn-volver">
+        <i class="fas fa-arrow-left"></i> Volver
+    </button>
+</a>
 
 <!-- 🔹 Formulario alineado normal -->
 <form method="post" class="formulario-estudiante">
@@ -73,10 +78,11 @@
         </div>
     </div>
 
-    <!-- Botón abajo a la izquierda -->
-    <div class="boton-container">
-        <button type="submit" class="boton-submit">Crear</button>
-    </div>
+        <div class="form-actions">
+            <button type="submit" class="btn btn-guardar">
+                <i class="fas fa-save"></i> Guardar
+            </button>
+        </div>
 </form>
 
 <style>
