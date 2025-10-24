@@ -8,6 +8,7 @@
     </a>
 </div>
 <hr>
+
 <!-- Barra de búsqueda -->
 <form method="get" class="input-group mb-4" style="max-width: 400px;">
     <input 
@@ -30,7 +31,7 @@
 <!-- Tabla de docentes -->
 <div class="table-responsive">
     <table class="table table-striped align-middle">
-    <thead class="table-dark">
+        <thead class="table-dark">
             <tr>
                 <th>Nombre</th>
                 <th>Apellido</th>
@@ -50,18 +51,27 @@
                 <td>{{ docente.telefono }}</td>
                 <td>
                     <div class="d-flex gap-1">
+                        <!-- Botón Editar -->
                         <a href="{% url 'docente:docente_actualizar' docente.pk %}" class="btn btn-actualizar btn-sm" title="Editar">
                             <i class="fas fa-edit"></i>
                         </a>
-                        <a href="{% url 'docente:docente_eliminar' docente.pk %}" class="btn btn-eliminar btn-sm" title="Eliminar">
+                        <!-- Botón Eliminar (abre modal) -->
+                        <button 
+                            type="button"
+                            class="btn btn-eliminar btn-sm"
+                            title="Eliminar"
+                            data-bs-toggle="modal"
+                            data-bs-target="#deleteModal"
+                            data-nombre="{{ docente.apellido }}, {{ docente.nombre }}"
+                            data-url="{% url 'docente:docente_eliminar' docente.id %}">
                             <i class="fas fa-trash"></i>
-                        </a>
+                        </button>
                     </div>
                 </td>
             </tr>
             {% empty %}
             <tr>
-                <td colspan="9" class="text-center">
+                <td colspan="6" class="text-center">
                     {% if request.GET.buscar %}
                         <strong>No se encontraron docentes con los datos ingresados.</strong>
                     {% else %}
@@ -103,6 +113,7 @@
 </nav>
 {% endif %}
 <hr>
+
 <!-- Estadísticas -->
 <div class="stats mt-4 text-center">
     <div class="stat-item">
@@ -110,5 +121,8 @@
         <div class="stat-label text-muted">Total de docentes</div>
     </div>
 </div>
+
+<!-- Incluir modal de eliminación -->
+{% include 'docente/eliminar.html' %}
 
 {% endblock section %}

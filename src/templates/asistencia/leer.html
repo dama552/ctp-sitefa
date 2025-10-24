@@ -96,14 +96,20 @@
                     {% endif %}
                 </td>
                 <td>{{ a.justificacion|default:"-" }}</td>
-                <td>
-                    <div class="actions">
-                        <a href="{% url 'asistencia:asistencia_actualizar' a.id %}" class="btn btn-sm btn-info" title="Editar">
-                            <i class="fas fa-edit"></i> 
+               <td>
+                    <div class="d-flex gap-1">
+                        <a href="{% url 'asistencia:asistencia_actualizar' a.id %}" class="btn btn-actualizar btn-sm" title="Editar">
+                            <i class="fas fa-edit"></i>
                         </a>
-                        <a href="{% url 'asistencia:asistencia_eliminar' a.id %}" class="btn btn-sm btn-danger" title="Eliminar">
-                            <i class="fas fa-trash"></i> 
-                        </a>
+                        <button type="button"
+                                class="btn btn-eliminar btn-sm"
+                                data-bs-toggle="modal"
+                                data-bs-target="#deleteModal"
+                                data-nombre="{{ a.estudiante }} - {{ a.fecha|date:'d/m/Y' }}"
+                                data-url="{% url 'asistencia:asistencia_eliminar' a.id %}"
+                                title="Eliminar">
+                            <i class="fas fa-trash"></i>
+                        </button>
                     </div>
                 </td>
             </tr>
@@ -112,6 +118,8 @@
                 <td colspan="6" class="text-center">No hay asistencias registradas para los filtros seleccionados.</td>
             </tr>
             {% endfor %}
+            </tr>
+            
         </tbody>
     </table>
 </div>
@@ -147,5 +155,8 @@
   </ul>
 </nav>
 {% endif %}
+
+<!-- Incluir modal de eliminación -->
+{% include 'asistencia/eliminar.html' %}
 
 {% endblock section %}
