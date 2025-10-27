@@ -13,6 +13,16 @@
     </div>
     <hr>
 
+    <!-- Mostrar mensajes de error o éxito -->
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        {% endfor %}
+    {% endif %}
+
     <!-- Formulario -->
     <form method="post" class="styled-form">
         {% csrf_token %}
@@ -33,7 +43,16 @@
         <div class="row">
             <div class="col-md-6 mb-3">
                 <label for="id_dni" class="form-label">DNI:</label>
-                <input type="text" name="dni" id="id_dni" class="form-control" maxlength="100" required>
+                <input 
+                    type="text" 
+                    name="dni" 
+                    id="id_dni" 
+                    class="form-control" 
+                    maxlength="8" 
+                    required
+                    placeholder="Ingrese 8 números"
+                >
+                <small id="dni-error" class="text-danger"></small>
             </div>
             <div class="col-md-6 mb-3">
                 <label for="id_email" class="form-label">Email:</label>
@@ -45,7 +64,7 @@
         <div class="row">
             <div class="col-md-6 mb-3">
                 <label for="id_telefono" class="form-label">Teléfono:</label>
-                <input type="number" name="telefono" id="id_telefono" class="form-control" required>
+                <input type="text" name="telefono" id="id_telefono" class="form-control" maxlength="15" required>
             </div>
             <div class="col-md-6 mb-3">
                 <label for="id_direccion" class="form-label">Dirección:</label>
@@ -77,4 +96,44 @@
         </div>
     </form>
 </div>
+
+<!-- ✅ Validación del formato del DNI -->
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+    const dniInput = document.getElementById("id_dni");
+    const dniError = document.getElementById("dni-error");
+    const form = document.querySelector("form");
+
+    dniInput.addEventListener("input", () => {
+        const valor = dniInput.value;
+
+        // Solo números
+        if (!/^\d*$/.test(valor)) {
+            dniInput.value = valor.replace(/\D/g, "");
+        }
+
+        // Límite de 8 dígitos
+        if (dniInput.value.length > 8) {
+            dniInput.value = dniInput.value.slice(0, 8);
+            dniError.textContent = "Máximo 8 dígitos permitidos.";
+        } else {
+            dniError.textContent = "";
+        }
+    });
+
+    form.addEventListener("submit", (e) => {
+        if (!/^\d{8}$/.test(dniInput.value.trim())) {
+            e.preventDefault();
+            dniError.textContent = "El DNI debe tener exactamente 8 números.";
+        }
+    });
+});
+</script>
+
+<style>
+.text-danger {
+    color: #dc3545;
+    font-size: 0.9em;
+}
+</style>
 {% endblock section %}
